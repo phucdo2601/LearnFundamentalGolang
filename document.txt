@@ -1,0 +1,3 @@
+tai thu vien tu github ve:
+    Buoc 1: phai cha lenh git mod init nameMode de tao module cho project
+    Buoc 2: chay lenh  go get <pacakge name> trong terminal (ex: go get "github.com/gorilla/mux")
