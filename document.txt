@@ -1,0 +1,256 @@
+/*
+-khi muon chay mot du an go:
++ Phai create a new moudle bang lenh go mod init ten project
++ Cau truc cua mot file .go la phai nam trong mot package, cau dau tien trong mot file .go phai la package
++ cac cau lenh xu ly cua trong go phai dc nhet trong mot func: func funcName (){}
++ Phai import cac thu vien ma go ho tro de thuc hien cac thao tac lenh
++ Phai import thu vien fmt de dung dc lenh print: st1: import "fmt"; st2: fmt.Print("")
++ De chay mot file go: go run file name, ex: go run main.go
+*/
+
+/**
+* Const in go: khi dat bien const co gia tri xac di thi khong thay doi dc gia tri do
+ */
+
+ /**
+	* Variable in go: la mot bien trong go, co the thay doi dc gia tri
+		bien khai bao trong go thi phai su dung, khong su dung thi se bao loi
+		 + cach khai bao bien trong go: var varName = "gia tri", ex: var conferenceName = "Go Conference"
+		 + cach khai bao khac:
+			"Syntactic Sugar": varName := "gia tri", ex: conferenceName := "Go Conference"
+
+		-  Exporting a variable:
+			+ Make it available for all packages in the app
+			+ Capitalize first letter
+	*/
+
+	/**
+	* print in go lang using library fmt and fmt.Print
+		su dung fmt.Printf de nhet bien khi in trong go, cau lenh nay se goi tuan tu cac bien ma minh khai bao sau dau phay
+		 + %v: la in ra gia tri cua bien
+		 + %T: la in ra kieu du lieu cua bien
+		\n: la de xuong dong
+		- Khi in ra gia tri, them dau & truoc ten bien dc in, thi go se cho ta ket qua vi tri cua bien do trong memory
+		- "string.Fields()": (phai import lib strings truoc khi dung)
+			+ Spits the string with white space as separator
+			+ And returns a slice with the split elements
+
+		- len():
+			+ Build in function returning length of variable, according to its type
+			+ Arrays & Slices: Size of the list (number of elements)
+	*/
+
+/**
+	Logical Operators:
+	 - &&: logical AND operator, both conditions must be true, for the whole expression to be true
+	 - ||: logical OR operator, any of conditions must be true, for the whole expression to be true
+	*/
+
+	/**
+	Array in Go:
+	Fixed Size -- Phai fix cung mot size khi khai bao mang
+	Array in Go is Static
+	Same data type
+	- Cach khai bao mang trong go: var varName [size]variable_type
+	- Cach khai bao mang co gia tri khoi tao trong go: var bookings = [50]string{"Nana", "Billy", "Peter"}
+	*/
+
+	/**
+	Slices in Go:
+	 - Slice is abstraction of an Array (la mot thanh phan con trong mang)
+	 - Slices are more flexible and powerful: variable-length or get an sub-array of its own
+	 - Slices are also indexed-based and have a size, but is resized when needed
+	 - Khai bao slice:
+	 	+ C1: var varName []variable_type
+		+ C2: var varName = []variable_type{} // khai bao mot slice rong
+		+ C3: varName := []string{} // tuong tu cach khai bao "Syntactic Sugar", phai khai bao mot mang rong
+	*/
+
+	/**
+	Loop in Go: (Vong lap) -- for, for-each
+	Cu phap vong for each: for index, objName := range varName {}
+	- Blank Identifier: (_)
+		+ To ignore a variable you dont want to use
+		+ So with Go, you need to make unused variables explicit
+	- Infinite Loop (never ends):
+		+ A loop that repeats endlessly, as the condition is always true
+	- Loop with conditionals: ending when excution conditions is done
+
+	- "break" statement:
+		+ Terminate the loop for
+		+ And continues with  the code right after the for loop (in our case we dont have any code)
+
+	- "continue" statement:
+		+ Cause loop to skip the remainer of its body
+		+ Add immediately resetting its conditions (in our infinite loop our condition is always true)
+
+	- conditionals in Loop:
+		+ End of a loop:
+			A Loop continues as long as a condition is true
+	*/
+
+	/**
+	Rannge:
+		- Range iterates over elements for different data structures (so not only arrays and slices)
+		- For arrays and slices, range provides the index and value for each element
+	*/
+
+	/**
+	if ... else:
+	- Cu phap if condition:
+		if condition {
+			// code to be executed if condition is true
+		}
+
+	- Cu phap if else condition:
+		if condition {
+			// code to be executed if condition is true
+		} else {
+			// code to be executed if condition is false
+		}
+
+	- Cu phap else if condition:
+		if condition {
+			// code to be executed if condition is true
+		} else if condition {
+			// code to be executed if condition is true
+		} else {
+			// code to be executed if both conditions are false
+		}
+	*/
+
+	/**
+	User input validation:
+	*/
+
+	/**
+	Switch Statement:
+		- Allows a variable to be tested for equality against a list of values
+		- Default handles the case, if no match is found
+	*/
+
+	/**
+	Functions
+		- Function is only executed when called
+		- You can call a function as many times you want
+		- So a function is also used to reduced a code duplication
+		- Returning multiple values: (Function trong go co the tra ve nhieu gia tri theo kieu va thu tu ma minh da quy uoc san)
+			+ A Go function can return multiple values
+	*/
+
+	/**
+	Package  Level Variables
+		- Defined at the outside all functions
+		- They can be accessed inside any of the functions
+		- And in all files, which are in the same package
+
+	Local variables
+		- Defined at the inside a functions or a block
+		- They can be accessed only inside that function or block of code
+	*/
+
+	/**
+	Date types in go: tham khao https://www.geeksforgeeks.org/data-types-in-go/
+	khi muon khai bao bien trong go ma khong can khai bao gia tri khoi tao ban dau, thi chi can the dataType dang sau ten bien
+	Cau truc var varName dataType; ex: var address string
+	+ Cac kieu du lieu so trong go: int, uint, byte, rune, float64, float32
+		int la so binh thuong,
+		float64, float32: la so co phan thap phan
+	+ Phai cung kieu du lieu thi moi thuc hien dc cac phep toan logic
+	*/
+
+    /**
+	User input: fmt.Scan() -- (Input da tu ban phim)
+	Den nhan mot input tu ban phim trong go thi chung ta su dung fmt.Scan(&varName):
+		Trong do varName la bien chung ta can lay gia tri input dua vao
+	*/
+
+	/**
+	Packages in Go
+		- Go progams are organized into packages
+		- A package is a collection of Go files
+
+	Scope: Package Level
+		- Again: Variables and functions defined outside any function, can be accessed in all other files within same the package
+
+	Khi muon su dung mot phuong thuc khac tu package khac, thi can import "moudleName/packageName", r tiep den lay namePackage.funcName (funcName phai viet hoa chu cai dau => public method)
+		ex: import (
+				"booking-app/helper"
+			)
+			=> helper.ValidateUserInput
+	*/
+
+	/*
+	3 levels of scope:
+		- Local: 
+			Declaration within a function (Can be used only within that function)
+			Declaration within block(if-else)
+
+		- Package:
+			Declaration outside all functions (Can be used every where in the same package)
+
+		- Global:
+			Variable scope = Scope is the region of a progam, where a defined variable can be accessed
+	*/
+
+	/*
+	Maps:
+		- Maps unique keys to values
+		- You can retrieve the value by using its key later
+		- All keys have the same data type 
+		- All values have the same data type
+		- Need to convert the uint into a string
+	*/
+
+	/*
+	Creating a slice with "make":
+		- Alternative way to create a slice
+		- We need to define the initial size of the slice
+	*/
+
+	/*
+	Struct: (Gan giong voi Class trong Java, C#) => khong co tich ke thua
+		- Stands for "Structure"
+		- Can hold mixed data types
+
+		"type" statement - Custome type
+			-The type keyword creates a new type, with the name you specify
+
+		"Create a type called "UserData" based on a struct of firstName, lastName, ....
+		 => In fact, you could also create a type based on every other data type like int, string, ...
+
+		- Defining a Structure:
+			Mixed data type
+			Defining a structure (which fields) of the User Type
+
+	*/
+
+	/*
+	"time" - functionality for time
+		The sleep func stops or blocks the current "thread" (goroutine) execution for the defined duration.
+	*/
+
+	/*
+	Thread in Go:
+		"go" keyworks:
+			- "go ..." - start a new goroutine
+			- A goroutine is a lightweight thread managed by the Go runtime
+			- ex : "Generating and sending ticket task runs now in the background"
+	*/
+
+	/*
+	Synchronizing in go:
+		- Event: By Default, the main goroutine does not wait for other goroutines
+
+		-Waitgroup:
+			+ wait for the launched goroutine to finish
+			+ Package "sync" provides basic Synchronization functionality
+			+ Add:
+				+ Sets the number of goroutines to wait for (increase the counter by the provided number)
+			+ Wait:
+				+ Blocks util the Waitgroup counter is 0
+
+			+ Done:
+				+ Decrements the Waitgroup counter by 1 => So this is called by the goroutine to indicate that it's finished
+
+	*/
