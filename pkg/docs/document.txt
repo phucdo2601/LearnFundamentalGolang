@@ -1,0 +1,4 @@
+- Run mot project Api cua Golang
+    b1: Truy cap vao thu muc chua file main.go
+    b2: chay cau lenh go build
+    b3: chay cau lenh go run main.go
