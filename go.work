@@ -1,0 +1,10 @@
+go 1.19
+
+use (
+	.
+	./business/services
+	./data/connections
+	./data/entities
+	./data/repositories
+	./presentation/controllers
+)
