@@ -99,7 +99,7 @@ Output:
         Boilerplate code: When defining large structures with many fields, it can be time-consuming to write out all of the field names and types.
         Inheritance: Go does not support inheritance, which can make it more difficult to work with large hierarchies of related data.
         Immutability: Go structures are mutable by default, which can make it more difficult to enforce immutability in your code.
-        
+
 Overall, the advantages of using structures in Go typically outweigh the disadvantages, as they provide a powerful tool for managing and working with complex data. However, as with any programming technique, it’s important to use structures judiciously and be aware of their limitations.
 Here are some important points about structures in Go:
 Structures are composite data types that allow you to group together related data of different types.
@@ -113,3 +113,128 @@ Go structures are mutable by default, but you can create immutable structures by
 Structures in Go are very efficient in terms of both memory usage and performance.
 Go does not support inheritance, but you can use composition to achieve similar results.
 Overall, structures in Go are a powerful tool for managing and working with complex data. By grouping related data together and associating behavior with it, you can create custom types that are more expressive and easier to work with.
+
+------------------------------------------------------------------------------------------------------------------------
+NESTED STRUCTS IN GO
+Structs can be nested to represent more complex entities:
+
+type car struct {
+  Make string
+  Model string
+  Height int
+  Width int
+  FrontWheel Wheel
+  BackWheel Wheel
+}
+
+type Wheel struct {
+  Radius int
+  Material string
+}
+
+The fields of a struct can be accessed using the dot . operator.
+
+myCar := car{}
+myCar.FrontWheel.Radius = 5
+
+ASSIGNMENT
+Textio has a bug, we've been sending texts with information missing! Before we send text messages in Textio, we should check to make sure the required fields have non-zero values.
+
+Notice that the user struct is a nested struct within the messageToSend struct. Both sender and recipient are user struct types.
+
+Complete the canSendMessage function. It should return true only if the sender and recipient fields each contain a name and a number. If any of the default zero values are present, return false instead.
+
+------------------------------------------------------------------------------------------------------------------------
+ANONYMOUS STRUCTS IN GO
+An anonymous struct is just like a normal struct, but it is defined without a name and therefore cannot be referenced elsewhere in the code.
+
+To create an anonymous struct, just instantiate the instance immediately using a second pair of brackets after declaring the type:
+
+myCar := struct {
+  Make string
+  Model string
+} {
+  Make: "tesla",
+  Model: "model 3",
+}
+
+You can even nest anonymous structs as fields within other structs:
+
+type car struct {
+  Make string
+  Model string
+  Height int
+  Width int
+  // Wheel is a field containing an anonymous struct
+  Wheel struct {
+    Radius int
+    Material string
+  }
+}
+
+WHEN SHOULD YOU USE AN ANONYMOUS STRUCT?
+In general, prefer named structs. Named structs make it easier to read and understand your code, and they have the nice side-effect of being reusable. I sometimes use anonymous structs when I know I won't ever need to use a struct again. For example, sometimes I'll use one to create the shape of some JSON data in HTTP handlers.
+
+If a struct is only meant to be used once, then it makes sense to declare it in such a way that developers down the road won’t be tempted to accidentally use it again.
+
+You can read more about anonymous structs here if you're curious.
+
+------------------------------------------------------------------------------------------------------------------------
+EMBEDDED STRUCTS
+Go is not an object-oriented language. However, embedded structs provide a kind of data-only inheritance that can be useful at times. Keep in mind, Go doesn't support classes or inheritance in the complete sense, embedded structs are just a way to elevate and share fields between struct definitions.
+
+type car struct {
+  make string
+  model string
+}
+
+type truck struct {
+  // "car" is embedded, so the definition of a
+  // "truck" now also additionally contains all
+  // of the fields of the car struct
+  car
+  bedSize int
+}
+
+EMBEDDED VS NESTED
+An embedded struct's fields are accessed at the top level, unlike nested structs.
+Promoted fields can be accessed like normal fields except that they can't be used in composite literals
+lanesTruck := truck{
+  bedSize: 10,
+  car: car{
+    make: "toyota",
+    model: "camry",
+  },
+}
+
+fmt.Println(lanesTruck.bedSize)
+
+// embedded fields promoted to the top-level
+// instead of lanesTruck.car.make
+fmt.Println(lanesTruck.make)
+fmt.Println(lanesTruck.model)
+
+------------------------------------------------------------------------------------------------------------------------
+
+STRUCT METHODS IN GO
+While Go is not object-oriented, it does support methods that can be defined on structs. Methods are just functions that have a receiver. A receiver is a special parameter that syntactically goes before the name of the function.
+
+type rect struct {
+  width int
+  height int
+}
+
+// area has a receiver of (r rect)
+func (r rect) area() int {
+  return r.width * r.height
+}
+
+r := rect{
+  width: 5,
+  height: 10,
+}
+
+fmt.Println(r.area())
+// prints 50
+
+A receiver is just a special kind of function parameter. Receivers are important because they will, as you'll learn in the exercises to come, allow us to define interfaces that our structs (and other types) can implement.
