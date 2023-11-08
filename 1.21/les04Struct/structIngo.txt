@@ -1,0 +1,115 @@
+STRUCTS IN GO
+We use structs in Go to represent structured data. It's often convenient to group different types of variables together. For example, if we want to represent a car we could do the following:
+
+type car struct {
+  Make string
+  Model string
+  Height int
+  Width int
+}
+
+This creates a new struct type called car. All cars have a Make, Model, Height and Width.
+
+In Go, you will often use a struct to represent information that you would have used a dictionary for in Python, or an object literal for in JavaScript.
+----------------------------------------------------------------------------
+Pointers to a struct
+Pointers in Go programming language or Golang is a variable which is used to store the memory address of another variable. You can also create a pointer to a struct as shown in the below example: 
+// Golang program to illustrate
+// the pointer to struct
+
+package main
+
+import "fmt"
+
+// defining a structure
+type Employee struct {
+	firstName, lastName string
+	age, salary int
+}
+
+func main() {
+
+	// passing the address of struct variable
+	// emp8 is a pointer to the Employee struct
+	emp8 := &Employee{"Sam", "Anderson", 55, 6000}
+
+	// (*emp8).firstName is the syntax to access
+	// the firstName field of the emp8 struct
+	fmt.Println("First Name:", (*emp8).firstName)
+	fmt.Println("Age:", (*emp8).age)
+}
+
+Output:
+
+First Name: Sam
+Age: 55
+
+The Golang gives us the option to use emp8.firstName instead of the explicit dereference (*emp8).firstName to access the firstName field. Example to show this is following: 
+
+// Golang program to illustrate
+// the pointer to struct
+package main
+
+import "fmt"
+
+// Defining a structure
+type Employee struct {
+	firstName, lastName string
+	age, salary		 int
+}
+
+// Main Function
+func main() {
+
+	// taking pointer to struct
+	emp8 := &Employee{"Sam", "Anderson", 55, 6000}
+
+	// emp8.firstName is used to access
+	// the field firstName
+	fmt.Println("First Name: ", emp8.firstName)
+	fmt.Println("Age: ", emp8.age)
+}
+
+In Go, a structure is a composite data type that groups together zero or more values of different types. Structures are defined using the type keyword, followed by the name of the new type, and the keyword struct. Here’s an example:
+
+In this example, we define a new type Person that has three fields: Name of type string, Age of type int, and Address of type string. We can then create new instances of the Person type and set the values of its fields:
+
+func main() {
+	person := Person{
+		Name: "John Doe",
+		Age:	 30,
+		Address: "123 Main St",
+	}
+	fmt.Println(person)
+}
+
+Output:
+{John Doe 30 123 Main St}
+ 
+
+    Advantages of using structures in Go:
+        Encapsulation: Structures allow you to encapsulate related data together, making it easier to manage and modify the data.
+        Code organization: Structures help to organize code in a logical way, which makes it easier to read and maintain.
+        Flexibility: Structures allow you to define custom types with their own behavior, making it easier to work with complex data.
+        Type safety: Structures provide type safety by allowing you to define the type of each field, which helps to prevent errors caused by assigning the wrong type of value.
+        Efficiency: Structures in Go are very efficient, both in terms of memory usage and performance.
+
+    Disadvantages of using structures in Go:
+        Complexity: Structures can make code more complex, especially if the structures have a large number of fields or methods.
+        Boilerplate code: When defining large structures with many fields, it can be time-consuming to write out all of the field names and types.
+        Inheritance: Go does not support inheritance, which can make it more difficult to work with large hierarchies of related data.
+        Immutability: Go structures are mutable by default, which can make it more difficult to enforce immutability in your code.
+        
+Overall, the advantages of using structures in Go typically outweigh the disadvantages, as they provide a powerful tool for managing and working with complex data. However, as with any programming technique, it’s important to use structures judiciously and be aware of their limitations.
+Here are some important points about structures in Go:
+Structures are composite data types that allow you to group together related data of different types.
+In Go, structures are defined using the type keyword, followed by the name of the new type, and the keyword struct.
+Structures can have fields that are of any type, including other structures.
+Fields can be accessed using the dot . operator.
+Structures in Go can also have methods associated with them.
+Methods can be defined on structures using the receiver syntax.
+Structures can be used to create custom types that encapsulate related data and behavior.
+Go structures are mutable by default, but you can create immutable structures by using pointers or methods that return a new instance of the structure.
+Structures in Go are very efficient in terms of both memory usage and performance.
+Go does not support inheritance, but you can use composition to achieve similar results.
+Overall, structures in Go are a powerful tool for managing and working with complex data. By grouping related data together and associating behavior with it, you can create custom types that are more expressive and easier to work with.
