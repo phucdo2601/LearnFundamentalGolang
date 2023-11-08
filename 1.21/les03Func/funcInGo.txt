@@ -11,3 +11,221 @@ For example, the following function:
 Accepts two integer parameters and returns another integer.
 
 Here, func sub(x int, y int) int is known as the "function signature".
+
+------------------------------------------------------------------------------------------------------------------------
+
+MULTIPLE PARAMETERS
+When multiple arguments are of the same type, and are next to each other in the function signature, the type only needs to be declared after the last argument.
+
+Here are some examples:
+    func addToDatabase(hp, damage int) {
+        // ...
+    }
+
+    func addToDatabase(hp, damage int, name string) {
+        // ?
+    }
+
+    func addToDatabase(hp, damage int, name string, level int) {
+        // ?
+    }
+
+DECLARATION SYNTAX
+Developers often wonder why the declaration syntax in Go is different from the tradition established in the C family of languages.
+
+C-STYLE SYNTAX
+The C language describes types with an expression including the name to be declared, and states what type that expression will have.
+
+    int y;
+
+The code above declares y as an int. In general, the type goes on the left and the expression on the right.
+
+Interestingly, the creators of the Go language agreed that the C-style of declaring types in signatures gets confusing really fast - take a look at this nightmare.
+
+    int (*fp)(int (*ff)(int x, int y), int b)
+
+GO-STYLE SYNTAX
+Go's declarations are clear, you just read them left to right, just like you would in English.
+
+    x int
+    p *int
+    a [3]int
+
+It's nice for more complex signatures, it makes them easier to read.
+    f func(func(int,int) int, int) int
+
+------------------------------------------------------------------------------------------
+PASSING VARIABLES BY VALUE
+Variables in Go are passed by value (except for a few data types we haven't covered yet). "Pass by value" means that when a variable is passed into a function, that function receives a copy of the variable. The function is unable to mutate the caller's original data.
+
+    func main(){
+        x := 5
+        increment(x)
+
+        fmt.Println(x)
+        // still prints 5,
+        // because the increment function
+        // received a copy of x
+    }
+
+    func increment(x int){
+        x++
+    }
+
+----------------------------------------------------------------------------------------
+IGNORING RETURN VALUES
+A function can return a value that the caller doesn't care about. We can explicitly ignore variables by using an underscore: _
+
+For example:
+    func getPoint() (x int, y int) {
+    return 3, 4
+    }
+
+    // ignore y value
+    x, _ := getPoint()
+
+Even though getPoint() returns two values, we can capture the first one and ignore the second.
+
+WHY WOULD YOU IGNORE A RETURN VALUE?
+There could be many reasons. For example, maybe a function called getCircle returns the center point and the radius, but you really only need the radius for your calculation. In that case, you would ignore the center point variable.
+
+This is crucial to understand because the Go compiler will throw an error if you have unused variable declarations in your code, so you need to ignore anything you don't intend to use.
+
+------------------------------------------------------------------------------------------------------------------------
+NAMED RETURN VALUES
+Return values may be given names, and if they are, then they are treated the same as if they were new variables defined at the top of the function.
+
+Named return values are best thought of as a way to document the purpose of the returned values.
+
+According to the tour of go:
+A return statement without arguments returns the named return values. This is known as a "naked" return. Naked return statements should be used only in short functions. They can harm readability in longer functions.
+
+    func getCoords() (x, y int){
+        // x and y are initialized with zero values
+
+        return // automatically returns x and y
+    }
+
+Is the same as:
+    func getCoords() (int, int){
+        var x int
+        var y int
+        return x, y
+    }
+
+In the first example, x and y are the return values. At the end of the function, we could simply write return to return the values of those two variables, rather than writing return x,y.
+
+------------------------------------------------------------------------------------------------------------------------
+EXPLICIT RETURNS
+Even though a function has named return values, we can still explicitly return values if we want to.
+    func getCoords() (x, y int){
+    return x, y // this is explicit
+    }
+
+Using this explicit pattern we can even overwrite the return values:
+    func getCoords() (x, y int){
+    return 5, 6 // this is explicit, x and y are NOT returned
+    }
+
+Otherwise, if we want to return the values defined in the function signature we can just use a naked return (blank return):
+
+
+func getCoords() (x, y int){
+  return // implicitly returns x and y
+}
+
+------------------------------------------------------------------------------------------------------------------------
+THE BENEFITS OF NAMED RETURNS
+GOOD FOR DOCUMENTATION (UNDERSTANDING)
+Named return parameters are great for documenting a function. We know what the function is returning directly from its signature, no need for a comment.
+
+Named return parameters are particularly important in longer functions with many return values.
+
+func calculator(a, b int) (mul, div int, err error) {
+    if b == 0 {
+      return 0, 0, errors.New("Can't divide by zero")
+    }
+    mul = a * b
+    div = a / b
+    return mul, div, nil
+}
+
+Which is easier to understand than:
+
+func calculator(a, b int) (int, int, error) {
+    if b == 0 {
+      return 0, 0, errors.New("Can't divide by zero")
+    }
+    mul := a * b
+    div := a / b
+    return mul, div, nil
+}
+
+We know the meaning of each return value just by looking at the function signature: func calculator(a, b int) (mul, div int, err error)
+
+LESS CODE (SOMETIMES)
+If there are multiple return statements in a function, you don’t need to write all the return values each time, though you probably should.
+
+When you choose to omit return values, it's called a naked return. Naked returns should only be used in short and simple functions.
+
+------------------------------------------------------------------------------------------------------------------------
+EARLY RETURNS
+Go supports the ability to return early from a function. This is a powerful feature that can clean up code, especially when used as guard clauses.
+
+Guard Clauses leverage the ability to return early from a function (or continue through a loop) to make nested conditionals one-dimensional. Instead of using if/else chains, we just return early from the function at the end of each conditional block.
+
+func divide(dividend, divisor int) (int, error) {
+	if divisor == 0 {
+		return 0, errors.New("Can't divide by zero")
+	}
+	return dividend/divisor, nil
+}
+
+Error handling in Go naturally encourages developers to make use of guard clauses. When I started writing more JavaScript, I was disappointed to see how many nested conditionals existed in the code I was working on.
+
+Let’s take a look at an exaggerated example of nested conditional logic:
+
+func getInsuranceAmount(status insuranceStatus) int {
+  amount := 0
+  if !status.hasInsurance(){
+    amount = 1
+  } else {
+    if status.isTotaled(){
+      amount = 10000
+    } else {
+      if status.isDented(){
+        amount = 160
+        if status.isBigDent(){
+          amount = 270
+        }
+      } else {
+        amount = 0
+      }
+    }
+  }
+  return amount
+}
+
+This could be written with guard clauses instead:
+
+func getInsuranceAmount(status insuranceStatus) int {
+  if !status.hasInsurance(){
+    return 1
+  }
+  if status.isTotaled(){
+    return 10000
+  }
+  if !status.isDented(){
+    return 0
+  }
+  if status.isBigDent(){
+    return 270
+  }
+  return 160
+}
+
+The example above is much easier to read and understand. When writing code, it’s important to try to reduce the cognitive load on the reader by reducing the number of entities thy need to think about at any given time.
+
+In the first example, if the developer is trying to figure out when 270 is returned, they need to think about each branch in the logic tree and try to remember which cases matter and which cases don’t. With the one-dimensional structure offered by guard clauses, it’s as simple as stepping through each case in ord
+
+------------------------------------------------------------------------------------------------------------------------
